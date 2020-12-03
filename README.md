@@ -1,2 +1,5 @@
 # Fractals-Generator
-This is the first project for the 2nd year course CO225 (Introduction to Java Programming). The aim of the project was to build a GUI application that can plot two of the most popular fractals: Mandelbrot set and the Julia set using inheritance as much as possible. 
+
+My main goal for the project was to somehow generate the fractal colouring scheme similar to the Mandelbrot picture on wikipedia:
+
+I was able to generate two colouring schemes and following are pictures of both Mandelbrot set and the Julia set plotted using those two approaches:
