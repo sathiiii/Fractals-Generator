@@ -9,6 +9,9 @@ Smooth Colour Scheme          |  Gradient Colour Scheme
 ![Mandelbrot Set using the smooth colour scheme](mandelbrot_1.png)  |  ![Mandelbrot Set using the gradient colour scheme](mandelbrot_2.png)
 ![Julia set using the smooth colour scheme](julia_1.png)  |  ![Julia set using the gradient colour scheme](julia_2.png)
 
+The program can also display the real and imaginary axes on the plot. The complex number corresponding to the mouse pointer location is displayed under the mouse pointer. The following is a screenshot of the program showing the axes and the position:\
+![](screenshot.gif)
+
 # Usage
 
 ```
