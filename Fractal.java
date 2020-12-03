@@ -20,20 +20,22 @@
 
 import java.awt.Cursor;
 import java.awt.event.*;
+import java.io.IOException;
+
 import javax.swing.JFrame;
 import javax.swing.JLayeredPane;
 
 public class Fractal {
     // Method to validate arguments
     private static void validateArguments(String[] args) {
-        if (args[0].equalsIgnoreCase("Mandelbrot") || args[0].equalsIgnoreCase("Julia"))
+        if (args[0].equals("Mandelbrot") || args[0].equals("Julia")) {
             // Check if numeric
             for (int i = 1; i < args.length; i++)
                 if (!args[i].matches("-?\\d+(\\.\\d+)?")) {
                     printUsage("Invalid usage of arguments");
                     System.exit(0);
                 }
-        else {
+        } else {
             // Handle invalid arguments
             printUsage("Invalid fractal type provided");
             System.exit(0);
@@ -45,11 +47,16 @@ public class Fractal {
         System.out.printf("\u001B[31mError: %s.\033[0m\n", errMessage);
         System.out.println("Usage: java Fractal Mandelbrot [REALMIN REALMAX IMAGMIN IMAGMAX] [MAXITR]");
         System.out.println("   or: java Fractal Julia [C_REAL C_IMAG] [MAXITR]\n");
-        System.out.println("The first argument must be the type of the fractal (either the Mandelbrot set or the Filled Julia set) to be drawn and is required.\n");
-        System.out.println("If the first argument provided is Mandelbrot, the following arguments REALMIN, REALMAX, IMAGMIN, IMAGMAX which specifies the Region Of Interest\nand MAXITR which specifies the maximum number of iterations are optional.");
-        System.out.println("If not provided the default values of the Region Of Interest are -1, 1, -1, 1 and the default value of MAXITR is 1000.\n");
-        System.out.println("If the first argument provided is Julia, the following arguments C_REAL C_IMAG which specifies the real and imaginary values of the constant\ncomplex number and MAXITR are optional.");
-        System.out.println("If not provided the default values of the C_REAL C_IMAG are -0.4, 0.6 and the default value of MAXITR is 1000.");
+        System.out.println(
+                "The first argument must be the type of the fractal (either the Mandelbrot set or the Filled Julia set) to be drawn and is required.\n");
+        System.out.println(
+                "If the first argument provided is Mandelbrot, the following arguments REALMIN, REALMAX, IMAGMIN, IMAGMAX which specifies the Region Of Interest\nand MAXITR which specifies the maximum number of iterations are optional.");
+        System.out.println(
+                "If not provided the default values of the Region Of Interest are -1, 1, -1, 1 and the default value of MAXITR is 1000.\n");
+        System.out.println(
+                "If the first argument provided is Julia, the following arguments C_REAL C_IMAG which specifies the real and imaginary values of the constant\ncomplex number and MAXITR are optional.");
+        System.out.println(
+                "If not provided the default values of the C_REAL C_IMAG are -0.4, 0.6 and the default value of MAXITR is 1000.");
     }
 
     public static void main(String[] args) {
@@ -60,20 +67,22 @@ public class Fractal {
         }
 
         // Create a new instance of the ComplexPlane (either MandelbrotSet or Juliaset)
-        // Initially an instance of MandelbrotSet is assigned but may be changed depending on the user requested type of the fractal
+        // Initially an instance of MandelbrotSet is assigned but may be changed
+        // depending on the user requested type of the fractal
         ComplexPlane fractalPlane = new MandelbrotSet();
 
         validateArguments(args);
 
-        if (args[0].equalsIgnoreCase("Mandelbrot")) {
+        if (args[0].equals("Mandelbrot")) {
             // Set the relevant fields of the MandelbrotSet object
             if (args.length >= 5)
-                fractalPlane.setROI(Double.parseDouble(args[1]), Double.parseDouble(args[2]), Double.parseDouble(args[3]), Double.parseDouble(args[4]));
+                fractalPlane.setROI(Double.parseDouble(args[1]), Double.parseDouble(args[2]),
+                        Double.parseDouble(args[3]), Double.parseDouble(args[4]));
             if (args.length == 6)
                 fractalPlane.setMaxIterations(Integer.parseInt(args[5]));
-        } 
-        else if (args[0].equalsIgnoreCase("Julia")) {
-            // If the user has requested the Julia set assign a new instance of JuliaSet to the fractalPlane ComplexPlane type variable
+        } else if (args[0].equals("Julia")) {
+            // If the user has requested the Julia set assign a new instance of JuliaSet to
+            // the fractalPlane ComplexPlane type variable
             fractalPlane = new JuliaSet();
             // Set the relevant fields of the JuliaSet object
             if (args.length >= 3)
@@ -84,15 +93,15 @@ public class Fractal {
 
         // Create an instance of the JPanel object: FractalDraw
         FractalDraw fDraw = new FractalDraw(fractalPlane);
-        
+
         try {
-            fDraw.init();   // Call the init method of the JPanel object to start the relevant threads for the pre-computations
-        } 
-        catch (InterruptedException e) {
+            fDraw.init(); // Call the init method of the JPanel object to start the relevant threads for the pre-computation
+        } catch (InterruptedException e) {
             e.printStackTrace();
         }
 
-        // Call showAxes method of the FractalDraw object to make the real and imaginary axes visible
+        // Call showAxes method of the FractalDraw object to make the real and imaginary
+        // axes visible
         fDraw.showAxes();
 
         // Create a new instance of a JFrame object
@@ -102,7 +111,8 @@ public class Fractal {
         // Set the size of the content of the frame to be its preferred size
         frame.pack();
 
-        // Create a new instance of the posLabel JComponent which shows the complex number pointed by the cursor
+        // Create a new instance of the posLabel JComponent which shows the complex
+        // number pointed by the cursor
         PositionLabel posLabel = new PositionLabel();
         // Add the posLabel object to the layered pane of the root pane of frame object
         frame.getRootPane().getLayeredPane().add(posLabel, JLayeredPane.DRAG_LAYER);
@@ -117,6 +127,7 @@ public class Fractal {
                 // Repaint the string in the posLabel object at each cursor motion
                 posLabel.repaint();
             }
+
             @Override
             public void mouseDragged(MouseEvent e) {
                 posLabel.setX(e.getX());
@@ -124,8 +135,8 @@ public class Fractal {
                 // Repaint the string in the posLabel object at each cursor motion
                 posLabel.repaint();
             }
-          });
-    
+        });
+
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         // Change the cursor to the crosshair cursor
         frame.setCursor(new Cursor(Cursor.CROSSHAIR_CURSOR));
