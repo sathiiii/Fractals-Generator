@@ -1,4 +1,4 @@
-# Introduction
+# About the project
 
 My main goal for the project was to somehow generate the fractal colouring scheme similar to the Mandelbrot picture on wikipedia:
 ![Picture of the Mandelbrot set found on Wikipedia](https://github.com/sathiiii/Fractals-Generator/blob/main/Mandelbrot_Wikipedia.jpg)
